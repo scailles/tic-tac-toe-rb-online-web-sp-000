@@ -1,3 +1,8 @@
+ 
+ require_relative '../lib/tic_tac_toe'
+ 
+ 
+ 
  WIN_COMBINATIONS = [ 
   [0,1,2],
   [3,4,5],
@@ -26,8 +31,8 @@ def input_to_index(input)
 end
 
 
-def move(board, index, token)
-  board[index] = token
+def move(board, index, current_player)
+  board[index] = current_player
 end
   
   
@@ -73,19 +78,19 @@ def current_player(board)
 end
 
 
-def turn(board,index,token)
-  puts "Please choose a number 1-9:"
-  input = gets.chomp
-  input_to_index(input)
-  if valid_move?(board, index) == true
-    player_token = current_player
-    move(index, token)
-    display_board
+def turn(board)
+  puts "Please enter 1-9:"
+  input = gets.strip
+  index = input_to_index(input)
+  
+   if valid_move?(board,index)
+     board[index] = current_player(board)
+    display_board(board)
   else
-    turn
+    turn(board)
   end
+  display_board(board)
 end
-
 
 
    def won?(board)
@@ -131,7 +136,7 @@ def over?(board)
 end
 
 
-def winner (board)
+def winner(board)
   index = []
   index = won?(board)
   if index == false
@@ -146,7 +151,30 @@ def winner (board)
 end
 
 
+
+
+
 def play(board)
-  
+  until over?(board)== true
+  turn(board)
+  over?(board)
+  won?(board)
+  draw?(board)
+   if won?(board)
+    print "Congratulations #{winner}!"
+  elsif draw?(board)
+    print "Cat's Game!"
+  end
 end
+  
+
+
+
+
+end
+
+
+
+  
+
 
